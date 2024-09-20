@@ -1,5 +1,4 @@
 import { renderCategories } from './src/services/categories.js';
-import { handleGetProductLocalStorage, setInLocalStorage } from './src/persistence/LocalStorage.js';
 import { handleGetProductToStore } from './src/views/store.js';
 import {handleSearchProductByName } from "./src/services/searchBar.js";
 import {handleDeleteProduct } from "./src/services/products.js"

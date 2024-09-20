@@ -13,7 +13,7 @@
 }
 /* ====== HEADER ====== */
 .conteiner_principalHeader {
-  width: 100vw;
+  width: 100%;
   height: 8vh;
   background-color: var(--rojo-color);
   display: flex;
@@ -68,7 +68,8 @@
 /* ====== MAIN ====== */
 .conteiner_view {
   display: grid;
-  grid-template-columns: 0.2fr 0.8fr;
+  /* grid-template-columns: 0.2fr 0.8fr; */
+  grid-template-columns: 0.25fr 1fr; 
 }
 /* ====== STORE ====== */
 .store {
@@ -77,18 +78,21 @@
   width: 100%;
 }
 .sectionStorage {
-  width: 70vw;
-  margin: 1rem;
+  width: 95%;
+  margin: 1rem auto;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
 }
 .containerProductStore {
-  /* width: 100%; */
+  width: 90%;
   display: grid;
-  grid-template-columns: repeat(3,1fr);
+  /* grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); */
+  /* grid-template-columns: repeat(3,1fr); */
+  grid-template-columns: repeat(auto-fit, minmax(1fr, 400px)); 
   gap: 3vh;
+
 }
 .containerTitleSection{
   text-transform: upperCase;
@@ -100,14 +104,13 @@
 .conteinerTargetItem {
   background-color: var(--amarillo-color);
   border-radius: 0.5rem;
-  width: 20vw;
-  /* height: 35vh; */
+  width: 100%;
+  min-width: 220px;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   transition: .2s ease;
-  /* padding: 0.4rem; */
 }
 .conteinerTargetItem:hover {
   cursor: pointer;
@@ -119,8 +122,10 @@
   margin-top: 0.4rem;
 }
 .conteinerTargetItem img{
-  width: 20vw;
+  width: 100%;
+  min-width: 220px;
   height: 30vh;
+  /* object-fit: cover; */
   border-radius: 0.5rem;
 }
 .TargetProps {
@@ -133,10 +138,13 @@
 /* ====== LISTASIDE ====== */
 .listAside {
   background-color: var(--fondo-color);
-  height: 92vh;
   display: flex;
   align-items: center;
   flex-direction: column;
+  position: sticky;
+  top: 0;
+  height: 92vh;
+  overflow-y: auto;
 }
 .listAside h2 {
   display: flex;
@@ -150,8 +158,6 @@
   list-style: none;
   display: flex;
   flex-direction: column;
-  /* align-items: flex-start; */
-  /* justify-content: space-around; */
   gap: 0.5vh;
 }
 .listAside ul li {
@@ -159,6 +165,8 @@
   font-weight: 500;
   padding: 1rem 4rem;
   border-radius: 0.2rem;
+  width: auto; /* Asegúrate de que los elementos no ocupen todo el ancho por defecto */
+  transition: width 0.3s ease-in-out, background-color 0.3s ease; /* Animación para hacer que el cambio de ancho sea suave */
 }
 .listAside ul li:hover {
   cursor: pointer;
@@ -166,6 +174,7 @@
 .liActive {
   background-color: var(--rojo-color);
   color: white;
+  width: 100%; /* La categoría activa se extiende al 100% del contenedor */
 }
 
 /* ====== POPUP ====== */
@@ -245,4 +254,64 @@
 }
 ::-webkit-scrollbar-thumb:hover{
   background-color: #6a959e;
+}
+
+/* 568 */
+
+@media screen and (min-width: 1300px) {
+  .containerProductStore {
+    grid-template-columns: repeat(4, 1fr); 
+  }
+}
+
+@media screen and (max-width: 1300px) {
+  .containerProductStore {
+    grid-template-columns: repeat(3, 1fr); /* 3 columnas para pantallas más pequeñas */
+  }
+  .buttonAdd {
+    width: 18vw;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .containerProductStore {
+    grid-template-columns: repeat(2, 1fr); /* 2 columnas en pantallas pequeñas */
+  }
+  .conteiner_view {
+    grid-template-columns: 1fr;
+  }
+  .listAside {
+    height: auto;
+    position: relative;
+    order: -1; /* Mueve el listAside arriba en pantallas pequeñas */
+  }
+  .store {
+    max-height: none; 
+  }
+  .listAside ul {
+    width: 100%;
+    text-align: center;
+  }
+
+  .conteiner_principalHeader {
+    height: 16vh;
+  }
+  .conteiner_contentHeader {
+    width: 100%;
+    flex-direction: column; 
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .buttonAdd {
+    width: 35vw;
+  }
+  .inputHeader {
+    width: 40vw;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .containerProductStore {
+    grid-template-columns: repeat(1, 1fr); /* 1 columna para pantallas muy pequeñas */
+  }
 }
