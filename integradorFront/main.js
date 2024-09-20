@@ -1,13 +1,23 @@
 import { renderCategories } from './src/services/categories.js';
 import { handleGetProductLocalStorage, setInLocalStorage } from './src/persistence/LocalStorage.js';
+import { handleGetProductToStore } from './src/views/store.js';
+import {handleSearchProductByName } from "./src/services/searchBar.js";
+import {handleDeleteProduct } from "./src/services/products.js"
 import './style.css'
+
+/* ======= APLICATION =========*/
+export let categoriaActiva = null;
+export const setCategoriaActiva = (categoriaIn)=> {
+  categoriaActiva = categoriaIn;
+}
+export let productoActivo = null;
+export const setProductoActivo = (productoIn)=> {
+  productoActivo= productoIn;
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   renderCategories();
-});
-/* ======= PRODUCT ======== */
-const buttonAdd = document.getElementById("buttonAdd");
-buttonAdd.addEventListener("click", ()=> {
-  openModal();
+  handleGetProductToStore();
 });
 
 
@@ -20,36 +30,59 @@ const handleCancelButton = ()=>{
   closeModal();
 };
 // funcion ABRIR CERRAR modal
-const openModal = ()=>{
+export const openModal = ()=>{
   const modal = document.getElementById("modalPopUp");
   modal.style.display = "flex";
-}
-const closeModal = ()=>{
-  const modal = document.getElementById("modalPopUp");
-  modal.style.display = "none";
-}
 
-//guardar o midificar elementos
-const acceptButton = document.getElementById("acceptButton");
-acceptButton.addEventListener("click", ()=>{
-  handleSaveOrModifyElements();
-});
+  const buttonDelete = document.getElementById("deleteButton");
 
-const handleSaveOrModifyElements = () =>{
-  const nombre = document.getElementById("name").value,
-    imagen = document.getElementById("img").value,
-    precio = document.getElementById("precio").value,
-    categoria = document.getElementById("categoria").value;
+  const nombre = document.getElementById("name"),
+    imagen = document.getElementById("img"),
+    precio = document.getElementById("precio"),
+    categoria = document.getElementById("categories");
 
-  let object = {
-    id: new Date().toISOString(),
-    nombre,
-    imagen,
-    precio,
-    categoria,
+  // Si hay un producto activo, llenamos el modal con sus datos
+  if (productoActivo) {
+    nombre.value = productoActivo.nombre;
+    imagen.value = productoActivo.imagen;
+    precio.value = productoActivo.precio;
+    categoria.value = productoActivo.categoria;
+    buttonDelete.style.display= "block";
+  } else {
+    buttonDelete.style.display= "none";
+    resetModal(); // Si no hay producto activo, vaciamos el modal
   }
 
-  setInLocalStorage(object);
-
-  //closeModal();
 }
+export const closeModal = ()=>{
+  const modal = document.getElementById("modalPopUp");
+  modal.style.display = "none";
+  resetModal();
+}
+
+const resetModal = ()=>{
+  const nombre = document.getElementById("name"),
+    imagen = document.getElementById("img"),
+    precio = document.getElementById("precio"),
+    categoria = document.getElementById("categories");
+    nombre.value= "";
+    imagen.value= "";
+    precio.value= 0;
+    categoria.value = "";
+}
+//button delete
+
+const deleteButton = document.getElementById("deleteButton");
+deleteButton.addEventListener("click", () => {
+  handleButtonDelete();
+});
+const handleButtonDelete = ()=>{
+  handleDeleteProduct();
+}
+
+
+//====   buttonSearch =======
+const buttonSearch = document.getElementById("buttonSearch");
+buttonSearch.addEventListener("click", ()=> {
+  handleSearchProductByName();
+})
